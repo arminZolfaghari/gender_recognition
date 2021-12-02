@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Gender Recognition</title>
     <link rel="stylesheet" href="css/style.css">
-    <script></script>
+    <script src="js/index.js"></script>
 </head>
 <body>
 <div class="main-container">
@@ -25,17 +25,15 @@
             </form>
         </div>
         <div class="buttons-container">
-            <input id="submit" type="submit" value="submit"/>
-            <input id="save" type="submit" value="save">
+            <input id="submit" type="submit" value="submit" onclick="onSubmit(event)"/>
+            <input id="save" type="button" value="save">
         </div>
         <div class="prediction-container">
             <div class="title">
                 <h4>Prediction</h4>
             </div>
-            Gender:
-            <div id="response-gender"></div>
-            Prob:
-            <div id="response-prob"></div>
+            <div id="response-gender">Gender:</div>
+            <div id="response-prob">Prob:</div>
         </div>
         <div class="saved-answer-container">
             <div class="title">
