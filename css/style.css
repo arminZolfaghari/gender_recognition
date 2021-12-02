@@ -8,7 +8,7 @@ html, body{
 set background in body and set background position
  */
 body{
-    background-image: url("../images/image11.jpg");
+    background-image: url("../images/image1.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -31,7 +31,7 @@ set main container in center and have alert-container and grid-container
 }
 
 /*
-alert container top of grid container
+alert container top of grid container. (row 1 in main container)
  */
 .alert-container{
     height: 10%;
@@ -45,7 +45,7 @@ alert container top of grid container
 }
 
 /*
-
+grid container bottom of alert container. (row 2 in main container)
  */
 .grid-container{
     height: 50%;
@@ -109,17 +109,20 @@ display is flex because have 2 columns (submit button and save button)
 
 /*
 prediction container is row: 1 and column: 2 of grid
-
+include 3 divs: title, gender, prob and display with flex (3 columns)
  */
 .prediction-container{
     grid-column: 2;
     grid-row: 1;
     align-items: center;
+
+    display: flex;
+    flex-direction: column;
 }
 
 /*
 saved answer container is row: 2 and column: 2 of grid
- this container size is double of another container
+ this container size is double of another container in row
  */
 .saved-answer-container{
     padding: 25px;
@@ -137,6 +140,9 @@ saved answer container is row: 2 and column: 2 of grid
 
 }
 
+/**
+set style for buttons class
+ */
 .buttons{
     width: 60px;
     height: 30px;
@@ -145,6 +151,9 @@ saved answer container is row: 2 and column: 2 of grid
 
 }
 
+/**
+when mouse hover on buttons, buttons change color
+ */
 .buttons:hover{
     background-color: hotpink;
 }
