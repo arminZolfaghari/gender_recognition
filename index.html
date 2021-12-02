@@ -19,15 +19,15 @@
         </div>
         <div class="select-gender-container">
             <form>
-                <input id="male-button" type="radio" name="gender" value="male"/>
+                <input class="radio-buttons" id="male-button" type="radio" name="gender" value="male"/>
                 <label>Male</label><br>
-                <input id="female-button" type="radio" name="gender" value="female"/>
+                <input class="radio-buttons" id="female-button" type="radio" name="gender" value="female"/>
                 <label>Female</label>
             </form>
         </div>
         <div class="buttons-container">
-            <input id="submit" type="submit" value="submit" onclick="onSubmit(event)"/>
-            <input id="save" type="button" value="save" onclick="onSave(event)">
+            <input class="buttons" id="submit" type="submit" value="submit" onclick="onSubmit(event)"/>
+            <input class="buttons" id="save" type="button" value="save" onclick="onSave(event)">
         </div>
         <div class="prediction-container">
             <div class="title">
@@ -41,7 +41,7 @@
                 <h4>Saved Answer</h4>
             </div>
             <div id="saved-answer-gender">Nothing!</div>
-            <button id="clear-saved-answer" type="button" onclick="onClear(event)">Clear</button>
+            <button class="buttons" id="clear-saved-answer" type="button" onclick="onClear(event)">Clear</button>
         </div>
     </div>
 </div>

@@ -1,6 +1,3 @@
-/*
-
- */
 html, body{
     margin: 0;
     height: 100%;
@@ -8,46 +5,48 @@ html, body{
 }
 
 /*
-set background in body
+set background in body and set background position
  */
 body{
-    background-image: url("../images/image1.jpg");
+    background-image: url("../images/image11.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 /*
-set main container in center
+set main container in center and have alert-container and grid-container
  */
 .main-container{
     height: 80%;
     width: 100%;
+
     display: flex;
     flex-direction: column;
+
     justify-content: center;
     align-content: center;
     align-items: center;
 
 }
 
+/*
+alert container top of grid container
+ */
 .alert-container{
     height: 10%;
     width: 25%;
     opacity: 50%;
     padding: 10px;
 
-    /*border-width: 1px;*/
-    /*border-style: solid;*/
-    /*border-radius: 30px;*/
-
-    /*background-color: rgb(255, 255, 255);*/
-
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
+/*
+
+ */
 .grid-container{
     height: 50%;
     width: 35%;
@@ -55,7 +54,7 @@ set main container in center
     opacity: 50%;
     padding: 10px;
 
-    border-width: 1px;
+    border-width: 2px;
     border-style: solid;
     border-radius: 30px;
 
@@ -68,6 +67,11 @@ set main container in center
 }
 
 
+/*
+name container is row: 1 and column: 1 of grid
+include input for name
+in center of row: 1 and column: 1
+ */
 .name-container{
     grid-column: 1;
     grid-row: 1;
@@ -76,15 +80,24 @@ set main container in center
 
 
 .title{
-    margin: 0;
+
 }
 
+/*
+select gender container is row: 2 and column: 1 of grid
+include two radio buttons
+ */
 .select-gender-container{
     grid-column: 1;
     grid-row: 2;
     align-items: center;
 }
 
+/*
+buttons container is row: 3 and column: 2 of grid
+include two buttons (submit button and save button)
+display is flex because have 2 columns (submit button and save button)
+ */
 .buttons-container{
     grid-column: 1;
     grid-row: 3;
@@ -94,19 +107,44 @@ set main container in center
     justify-content: space-between;
 }
 
+/*
+prediction container is row: 1 and column: 2 of grid
+
+ */
 .prediction-container{
     grid-column: 2;
     grid-row: 1;
     align-items: center;
 }
 
+/*
+saved answer container is row: 2 and column: 2 of grid
+ this container size is double of another container
+ */
 .saved-answer-container{
-    padding: 10px;
+    padding: 25px;
     border-radius: 5px;
     border-width: 1px;
     border-style: dotted;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     grid-column: 2;
     grid-row: 2 / span 3;
-    align-items: center;
+
+}
+
+.buttons{
+    width: 60px;
+    height: 30px;
+    background-color: lightpink;
+    text-align: center;
+
+}
+
+.buttons:hover{
+    background-color: hotpink;
 }

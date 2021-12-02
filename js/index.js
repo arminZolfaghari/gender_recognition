@@ -1,21 +1,27 @@
 const URL = "https://api.genderize.io/";
 
 
-
-let showMessage = (message) => {
+/**
+ * show message in alert-container
+ * @param message {string}
+ * @param messageType {string}
+ */
+let showMessage = (message, messageType) => {
     let alert = document.getElementById('alert');
+    messageType === "Error" ? alert.style.color = "red" : alert.style.color = "green"
+    alert.style.fontSize = "x-large";
     alert.style.opacity = 1;
     alert.innerHTML = message;
     setTimeout(() => {
         alert.style.opacity = 0;
-    }, 3000);
+    }, 4000);
 }
 
 
 /**
  * send request to URL (https://api.genderize.io/) with param name
  * get json response
- * @param name
+ * @param name {string}
  * @returns {Promise<Response>}
  */
 let sendRequest = async (name) => {
@@ -24,7 +30,7 @@ let sendRequest = async (name) => {
         return res.json()
     }
     catch (err){
-        showMessage(err)
+        showMessage(err, "Error")
     }
 
 }
@@ -33,7 +39,7 @@ let sendRequest = async (name) => {
 /**
  * get information about name (gender and probability)
  * then set in document HTML
- * @param nameInfo
+ * @param nameInfo {Object}
  */
 let setPrediction = (nameInfo) => {
     let {name, gender, probability} = nameInfo;
@@ -44,7 +50,7 @@ let setPrediction = (nameInfo) => {
             : document.getElementById("female-button").checked = true
     }
     else
-        showMessage(`This name (${name}) doesn't exist!!!`)
+        showMessage(`This name (${name}) doesn't exist!!!`, "Error")
 }
 
 
@@ -53,7 +59,7 @@ let setPrediction = (nameInfo) => {
  * show saved answer in the right bottom of page
  * check local storage, if name exists => show gender
  * else => show nothing
- * @param name
+ * @param name {string}
  */
 let showSavedAnswer = (name) => {
     let resFromLocalStorage = getNameInfoFromLocalStorage(name);
@@ -65,7 +71,7 @@ let showSavedAnswer = (name) => {
 
 
 /**
- * @returns {name}
+ * @returns name {string}
  */
 let getNameFromInput = () => {
     return document.getElementById("input-name").value;
@@ -74,10 +80,9 @@ let getNameFromInput = () => {
 
 /**
  * check name with regex and length
- * @param name
+ * @param name {string}
  */
 let checkRuleForName = (name) => {
-    console.log(name)
     if (!/^[a-zA-Z\s]*$/.test(name) === true)
         throw Error(`input name(${name}) has bad character. change it.`)
     if (name.length > 255)
@@ -93,13 +98,12 @@ let handleRequest = async () => {
     try{
         let inputName = getNameFromInput()
         checkRuleForName(inputName)
-        console.log("name ", inputName);
         let nameInfo = await sendRequest(inputName);
         setPrediction(nameInfo);
         showSavedAnswer(inputName)
     }
     catch (err) {
-        showMessage(err)
+        showMessage(err, "Error")
     }
 }
 
@@ -119,28 +123,31 @@ let onSubmit = async (event) => {
  * get name and then search in local storage
  * if name exist in local storage => return {name, gender}
  * else => return {name, null}
- * @param name
- * @returns {{gender: string, name: string}}
+ * @param name {string}
+ * @returns nameInfo {Object}
  */
 let getNameInfoFromLocalStorage = (name) => {
-    return {name, gender: localStorage.getItem(name)}
+    let nameInfo = {name, gender: localStorage.getItem(name)}
+    return nameInfo
 }
 
 
 /**
  * remove name and gender from local storage
- * @param name
+ * @param name {string}
  */
 let deleteNameInfoFromLocalStorage = (name) => {
     let resFromLocalStorage = getNameInfoFromLocalStorage(name);
-    if (resFromLocalStorage.gender)
+    if (resFromLocalStorage.gender) {
         localStorage.removeItem(name)
+        return true
+    }
 }
 
 
 /**
  * save name and gender to local storage
- * @param nameInfo: {name: string, gender: string}
+ * @param nameInfo {Object}: {name: string, gender: string}
  */
 let saveNameInfo = (nameInfo) => {
     let {name, gender} = nameInfo
@@ -148,21 +155,34 @@ let saveNameInfo = (nameInfo) => {
 }
 
 
+/**
+ * when click on save button => get nameInfo and save in local storage (saveNameInfo)
+ * then show message in alert container
+ * then show saved answer
+ * @param event
+ */
 let onSave = (event) => {
     event.preventDefault();
     let gender = document.querySelector('input[name="gender"]:checked').value;
     let name = getNameFromInput();
     saveNameInfo({name, gender});
-    let message = `Saved name: ${name}, gender: ${gender}`
-    showMessage(message)
+    let message = `Saved name: ${name}, gender: ${gender}.`
+    showMessage(message, "Notices")
+    showSavedAnswer(name)
 
 }
 
-
+/**
+ * when click on clear button => get name and delete name from local storage (deleteNameInfoFromLocalStorage)
+ * then show saved answer
+ * @param event
+ */
 let onClear = (event) => {
     event.preventDefault();
     let name = getNameFromInput();
-    deleteNameInfoFromLocalStorage(name);
+    let message = `Deleted name: ${name} from local storage.`
+    deleteNameInfoFromLocalStorage(name) ? showMessage(message, "Notices"):
+    showMessage("Nothing to delete!!!", "Error");
     showSavedAnswer(name);
 }
 
