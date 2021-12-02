@@ -24,10 +24,28 @@ set main container in center
     height: 80%;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-content: center;
     align-items: center;
 
+}
+
+.alert-container{
+    height: 10%;
+    width: 25%;
+    opacity: 50%;
+    padding: 10px;
+
+    /*border-width: 1px;*/
+    /*border-style: solid;*/
+    /*border-radius: 30px;*/
+
+    /*background-color: rgb(255, 255, 255);*/
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .grid-container{

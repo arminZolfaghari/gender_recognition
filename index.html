@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="main-container">
+    <div class="alert-container" id="alert"></div>
     <div class="grid-container">
         <div class="name-container">
             <div class="title">
@@ -18,15 +19,15 @@
         </div>
         <div class="select-gender-container">
             <form>
-                <input type="radio" name="gender" value="Male"/>
+                <input id="male-button" type="radio" name="gender" value="male"/>
                 <label>Male</label><br>
-                <input type="radio" name="gender" value="Female"/>
+                <input id="female-button" type="radio" name="gender" value="female"/>
                 <label>Female</label>
             </form>
         </div>
         <div class="buttons-container">
             <input id="submit" type="submit" value="submit" onclick="onSubmit(event)"/>
-            <input id="save" type="button" value="save">
+            <input id="save" type="button" value="save" onclick="onSave(event)">
         </div>
         <div class="prediction-container">
             <div class="title">
@@ -39,8 +40,8 @@
             <div class="title">
                 <h4>Saved Answer</h4>
             </div>
-            <div id="saved-answer-gender"></div>
-            <button id="clear-saved-answer">Clear</button>
+            <div id="saved-answer-gender">Nothing!</div>
+            <button id="clear-saved-answer" type="button" onclick="onClear(event)">Clear</button>
         </div>
     </div>
 </div>
