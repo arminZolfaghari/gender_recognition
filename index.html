@@ -7,48 +7,44 @@
     <script></script>
 </head>
 <body>
-    <div class="main-container">
-        <div class="grid-container">
-            <div class="left_column">
-                <div class="name-container">
-                    <div class="title">
-                        <h4>Mr. or Ms. ?</h4>
-                    </div>
-                    Name
-                    <input id="input-name" type="text" name="name" maxlength="255">
-                </div>
-                <div class="select-gender">
-                    <form>
-                        <input type="radio" name="gender" value="Male"/>
-                        <label>Male</label><br>
-                        <input type="radio" name="gender" value="Female"/>
-                        <label>Female</label>
-                    </form>
-                </div>
-                <div class="buttons">
-                    <input id="submit" type="submit" value="submit"/>
-                    <input id="save" type="submit" value="save">
-                </div>
+<div class="main-container">
+    <div class="grid-container">
+        <div class="name-container">
+            <div class="title">
+                <h4>Mr. or Ms. ?</h4>
             </div>
-            <div class="right-column">
-                <div class="prediction">
-                    <div class="title">
-                        <h4>Prediction</h4>
-                    </div>
-                    Gender
-                    <div id="response-gender"></div>
-                    Prob
-                    <div id="response-prob"></div>
-                </div>
-                <div class="saved-answer">
-                    <div class="title">
-                        <h4>Saved Answer</h4>
-                    </div>
-                    <div id="saved-answer-gender"></div>
-                    <button id="clear-saved-answer">Clear</button>
-                </div>
+            Name
+            <input id="input-name" type="text" name="name" maxlength="255">
+        </div>
+        <div class="select-gender-container">
+            <form>
+                <input type="radio" name="gender" value="Male"/>
+                <label>Male</label><br>
+                <input type="radio" name="gender" value="Female"/>
+                <label>Female</label>
+            </form>
+        </div>
+        <div class="buttons-container">
+            <input id="submit" type="submit" value="submit"/>
+            <input id="save" type="submit" value="save">
+        </div>
+        <div class="prediction-container">
+            <div class="title">
+                <h4>Prediction</h4>
             </div>
+            Gender:
+            <div id="response-gender"></div>
+            Prob:
+            <div id="response-prob"></div>
+        </div>
+        <div class="saved-answer-container">
+            <div class="title">
+                <h4>Saved Answer</h4>
+            </div>
+            <div id="saved-answer-gender"></div>
+            <button id="clear-saved-answer">Clear</button>
         </div>
     </div>
+</div>
 </body>
 </html>

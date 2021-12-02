@@ -1,4 +1,94 @@
+/*
+
+ */
 html, body{
+    margin: 0;
     height: 100%;
     width: 100%;
+}
+
+/*
+set background in body
+ */
+body{
+    background-image: url("../images/image1.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*
+set main container in center
+ */
+.main-container{
+    height: 80%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+}
+
+.grid-container{
+    height: 50%;
+    width: 35%;
+
+    opacity: 50%;
+    padding: 10px;
+
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30px;
+
+    background-color: rgb(255, 255, 255);
+
+    display: grid;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+
+.name-container{
+    grid-column: 1;
+    grid-row: 1;
+    align-items: center;
+}
+
+
+.title{
+    margin: 0;
+}
+
+.select-gender-container{
+    grid-column: 1;
+    grid-row: 2;
+    align-items: center;
+}
+
+.buttons-container{
+    grid-column: 1;
+    grid-row: 3;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.prediction-container{
+    grid-column: 2;
+    grid-row: 1;
+    align-items: center;
+}
+
+.saved-answer-container{
+    padding: 10px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: dotted;
+
+    grid-column: 2;
+    grid-row: 2 / span 3;
+    align-items: center;
 }
