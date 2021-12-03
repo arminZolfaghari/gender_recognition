@@ -38,6 +38,7 @@
 let showMessage = (message, messageType, timeout) => {
     let alert = document.getElementById('alert');
     messageType === "Error" ? alert.style.color = "red" : alert.style.color = "green"
+    alert.style.borderStyle = "solid"
     alert.style.fontSize = "x-large";
     alert.style.opacity = 1;
     alert.innerHTML = message;
@@ -61,7 +62,6 @@ let sendRequest = async (name) => {
     catch (err){
         showMessage(err, "Error", 4000)
     }
-
 }
 
 
@@ -71,7 +71,7 @@ let sendRequest = async (name) => {
  * @param nameInfo {Object}
  */
 let setPrediction = (nameInfo) => {
-    let {name, gender, probability} = nameInfo;
+    let {gender, probability} = nameInfo;
     if (gender) {
         document.getElementById("response-gender").innerHTML = `Gender: ${gender}`;
         document.getElementById("response-prob").innerHTML = `Prob: ${probability}`;
@@ -79,9 +79,25 @@ let setPrediction = (nameInfo) => {
             : document.getElementById("female-button").checked = true
     }
     else
-        showMessage(`This name (${name}) doesn't exist!!!`, "Error", 4000)
+        showMessage(`This name doesn't exist!!!`, "Error", 5000)
 }
 
+
+/**
+ * when we don't have saved answer, remove saved answer container
+ */
+let removeSavedAnswerContainer = () => {
+    let savedAnswer = document.getElementById("saved-answer");
+    savedAnswer.style.opacity = 0;
+}
+
+/**
+ * when we have saved answer, show saved answer container
+ */
+let showSavedAnswerContainer = () => {
+    let savedAnswer = document.getElementById("saved-answer");
+    savedAnswer.style.opacity = 1;
+}
 
 
 /**
@@ -92,10 +108,14 @@ let setPrediction = (nameInfo) => {
  */
 let showSavedAnswer = (name) => {
     let resFromLocalStorage = getNameInfoFromLocalStorage(name);
-    if (resFromLocalStorage.gender)
+    if (resFromLocalStorage.gender) {
+        showSavedAnswerContainer()
         document.getElementById('saved-answer-gender').innerHTML = resFromLocalStorage.gender;
-    else
-        document.getElementById('saved-answer-gender').innerHTML = "Nothing!";
+    }
+    else {
+        removeSavedAnswerContainer()
+    }
+        // document.getElementById('saved-answer-gender').innerHTML = "Nothing!";
 }
 
 
@@ -113,9 +133,11 @@ let getNameFromInput = () => {
  */
 let checkRuleForName = (name) => {
     if (!/^[a-zA-Z\s]*$/.test(name) === true)
-        throw Error(`input name(${name}) has bad character. change it.`)
+        throw Error(`input name has bad character. change it.`)
     if (name.length > 255)
-        throw Error(`input name(${name}) length is more than 255 character. change it.`)
+        throw Error(`input name length is more than 255 character. change it.`)
+    if (/^\s*$/.test(name))     // when name is space
+        throw Error(`input name is invalid. change it.`)
 }
 
 
@@ -127,9 +149,15 @@ let handleRequest = async () => {
     try{
         let inputName = getNameFromInput()
         checkRuleForName(inputName)
-        let message = `Fetching information about name: ${inputName}`
+        let message = `Fetching information about name`
         showMessage(message, "Notice", 2000);
         let nameInfo = await sendRequest(inputName);
+        // check user connection and request blocked
+        if (!nameInfo){
+            let errorMessage = "Request Blocked. Check your connection!!!"
+            showMessage(errorMessage, "Error", 4000)
+            return
+        }
         setPrediction(nameInfo);
         showSavedAnswer(inputName)
     }
@@ -140,12 +168,21 @@ let handleRequest = async () => {
 
 
 /**
+ * when we haven't prediction
+ */
+let clearPredictionContainer = () => {
+    document.getElementById("response-gender").innerHTML = `Gender:`;
+    document.getElementById("response-prob").innerHTML = `Prob:`;
+}
+
+/**
  * when click on submit => call handle request
  * @param event
  * @returns {Promise&lt;void>}
  */
 let onSubmit = async (event) => {
     event.preventDefault();
+    clearPredictionContainer()
     await handleRequest();
 }
 
@@ -193,14 +230,19 @@ let saveNameInfo = (nameInfo) => {
  * @param event
  */
 let onSave = (event) => {
-    event.preventDefault();
-    let gender = document.querySelector('input[name="gender"]:checked').value;
-    let name = getNameFromInput();
-    saveNameInfo({name, gender});
-    let message = `Saved name: ${name}, gender: ${gender}.`
-    showMessage(message, "Notices", 4000)
-    showSavedAnswer(name)
-
+    try{
+        event.preventDefault();
+        let gender = document.querySelector('input[name="gender"]:checked').value;
+        let name = getNameFromInput();
+        checkRuleForName(name)
+        saveNameInfo({name, gender});
+        let message = `Saved name and gender.`
+        showMessage(message, "Notices", 4000)
+        showSavedAnswer(name)
+    }
+    catch (err){
+        showMessage(err, "Error", 4000)
+    }
 }
 
 /**
@@ -211,18 +253,24 @@ let onSave = (event) => {
 let onClear = (event) => {
     event.preventDefault();
     let name = getNameFromInput();
-    let message = `Deleted name: ${name} from local storage.`
+    let message = `Deleted name from local storage.`
     deleteNameInfoFromLocalStorage(name) ? showMessage(message, "Notices", 4000):
     showMessage("Nothing to delete!!!", "Error", 4000);
     showSavedAnswer(name);
 }
 
+/**
+ * check user connection
+ */
+window.addEventListener('offline', (event) => {
+    showMessage("Check your connection!!!", "Error", 4000)
+})
 
 
 
 
-// document.getElementById('submit').onclick = onSubmit
-// document.getElementById('save').onclick = saveMyAnswer</code></pre>
+
+</code></pre>
         </article>
     </section>
 
@@ -232,13 +280,13 @@ let onClear = (event) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkRuleForName">checkRuleForName</a></li><li><a href="global.html#deleteNameInfoFromLocalStorage">deleteNameInfoFromLocalStorage</a></li><li><a href="global.html#getNameFromInput">getNameFromInput</a></li><li><a href="global.html#getNameInfoFromLocalStorage">getNameInfoFromLocalStorage</a></li><li><a href="global.html#handleRequest">handleRequest</a></li><li><a href="global.html#onClear">onClear</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#onSubmit">onSubmit</a></li><li><a href="global.html#saveNameInfo">saveNameInfo</a></li><li><a href="global.html#sendRequest">sendRequest</a></li><li><a href="global.html#setPrediction">setPrediction</a></li><li><a href="global.html#showMessage">showMessage</a></li><li><a href="global.html#showSavedAnswer">showSavedAnswer</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkRuleForName">checkRuleForName</a></li><li><a href="global.html#clearPredictionContainer">clearPredictionContainer</a></li><li><a href="global.html#deleteNameInfoFromLocalStorage">deleteNameInfoFromLocalStorage</a></li><li><a href="global.html#getNameFromInput">getNameFromInput</a></li><li><a href="global.html#getNameInfoFromLocalStorage">getNameInfoFromLocalStorage</a></li><li><a href="global.html#handleRequest">handleRequest</a></li><li><a href="global.html#onClear">onClear</a></li><li><a href="global.html#onSave">onSave</a></li><li><a href="global.html#onSubmit">onSubmit</a></li><li><a href="global.html#removeSavedAnswerContainer">removeSavedAnswerContainer</a></li><li><a href="global.html#saveNameInfo">saveNameInfo</a></li><li><a href="global.html#sendRequest">sendRequest</a></li><li><a href="global.html#setPrediction">setPrediction</a></li><li><a href="global.html#showMessage">showMessage</a></li><li><a href="global.html#showSavedAnswer">showSavedAnswer</a></li><li><a href="global.html#showSavedAnswerContainer">showSavedAnswerContainer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Dec 03 2021 03:02:33 GMT+0330 (Iran Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Dec 03 2021 20:27:29 GMT+0330 (Iran Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
