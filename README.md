@@ -1,7 +1,7 @@
 # gender_recognition
 AUT Internet Engineering course midterm project.
 
-Website link: https://arminZolfaghari.github.io/gender-recognition
+Website link: https://arminZolfaghari.github.io/gender_recognition
 <br>
 for Check JSDoc output:
 1. Clone the repository
