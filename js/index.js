@@ -103,7 +103,7 @@ let getNameFromInput = () => {
  * check name with regex and length
  * @param name {string}
  */
-let checkRuleForName = async (name) => {
+let checkRuleForName = (name) => {
     if (!/^[a-zA-Z\s]*$/.test(name) === true)
         throw Error(`input name(${name}) has bad character. change it.`)
     if (name.length > 255)
@@ -120,7 +120,7 @@ let checkRuleForName = async (name) => {
 let handleRequest = async () => {
     try{
         let inputName = getNameFromInput()
-        await checkRuleForName(inputName)
+        checkRuleForName(inputName)
         let message = `Fetching information about name: ${inputName}`
         showMessage(message, "Notice", 2000);
         let nameInfo = await sendRequest(inputName);
@@ -134,12 +134,21 @@ let handleRequest = async () => {
 
 
 /**
+ * when we haven't prediction
+ */
+let clearPredictionContainer = () => {
+    document.getElementById("response-gender").innerHTML = `Gender:`;
+    document.getElementById("response-prob").innerHTML = `Prob:`;
+}
+
+/**
  * when click on submit => call handle request
  * @param event
  * @returns {Promise<void>}
  */
 let onSubmit = async (event) => {
     event.preventDefault();
+    clearPredictionContainer()
     await handleRequest();
 }
 
@@ -187,14 +196,19 @@ let saveNameInfo = (nameInfo) => {
  * @param event
  */
 let onSave = (event) => {
-    event.preventDefault();
-    let gender = document.querySelector('input[name="gender"]:checked').value;
-    let name = getNameFromInput();
-    saveNameInfo({name, gender});
-    let message = `Saved name: ${name}, gender: ${gender}.`
-    showMessage(message, "Notices", 4000)
-    showSavedAnswer(name)
-
+    try{
+        event.preventDefault();
+        let gender = document.querySelector('input[name="gender"]:checked').value;
+        let name = getNameFromInput();
+        checkRuleForName(name)
+        saveNameInfo({name, gender});
+        let message = `Saved name: ${name}, gender: ${gender}.`
+        showMessage(message, "Notices", 4000)
+        showSavedAnswer(name)
+    }
+    catch (err){
+        showMessage(err, "Error", 4000)
+    }
 }
 
 /**
