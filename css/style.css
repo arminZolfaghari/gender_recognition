@@ -48,8 +48,11 @@ alert container top of grid container. (row 1 in main container)
 grid container bottom of alert container. (row 2 in main container)
  */
 .grid-container{
-    height: 60%;
-    width: 45%;
+    /*height: 60%;*/
+    /*width: 45%;*/
+
+    height: 400px;
+    width: 600px;
 
     opacity: 60%;
     padding: 10px;
@@ -130,6 +133,7 @@ saved answer container is row: 2 and column: 2 of grid
     border-width: 1px;
     border-style: dotted;
 
+    opacity: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;

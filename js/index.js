@@ -55,6 +55,22 @@ let setPrediction = (nameInfo) => {
 }
 
 
+/**
+ * when we don't have saved answer, remove saved answer container
+ */
+let removeSavedAnswerContainer = () => {
+    let savedAnswer = document.getElementById("saved-answer");
+    savedAnswer.style.opacity = 0;
+}
+
+/**
+ * when we have saved answer, show saved answer container
+ */
+let showSavedAnswerContainer = () => {
+    let savedAnswer = document.getElementById("saved-answer");
+    savedAnswer.style.opacity = 1;
+}
+
 
 /**
  * show saved answer in the right bottom of page
@@ -64,10 +80,14 @@ let setPrediction = (nameInfo) => {
  */
 let showSavedAnswer = (name) => {
     let resFromLocalStorage = getNameInfoFromLocalStorage(name);
-    if (resFromLocalStorage.gender)
+    if (resFromLocalStorage.gender) {
+        showSavedAnswerContainer()
         document.getElementById('saved-answer-gender').innerHTML = resFromLocalStorage.gender;
-    else
-        document.getElementById('saved-answer-gender').innerHTML = "Nothing!";
+    }
+    else {
+        removeSavedAnswerContainer()
+    }
+        // document.getElementById('saved-answer-gender').innerHTML = "Nothing!";
 }
 
 
@@ -190,6 +210,7 @@ let onClear = (event) => {
     showMessage("Nothing to delete!!!", "Error", 4000);
     showSavedAnswer(name);
 }
+
 
 
 
