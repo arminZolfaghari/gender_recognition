@@ -10,6 +10,7 @@ const URL = "https://api.genderize.io/";
 let showMessage = (message, messageType, timeout) => {
     let alert = document.getElementById('alert');
     messageType === "Error" ? alert.style.color = "red" : alert.style.color = "green"
+    alert.style.borderStyle = "solid"
     alert.style.fontSize = "x-large";
     alert.style.opacity = 1;
     alert.innerHTML = message;
@@ -43,7 +44,7 @@ let sendRequest = async (name) => {
  * @param nameInfo {Object}
  */
 let setPrediction = (nameInfo) => {
-    let {name, gender, probability} = nameInfo;
+    let {gender, probability} = nameInfo;
     if (gender) {
         document.getElementById("response-gender").innerHTML = `Gender: ${gender}`;
         document.getElementById("response-prob").innerHTML = `Prob: ${probability}`;
@@ -51,7 +52,7 @@ let setPrediction = (nameInfo) => {
             : document.getElementById("female-button").checked = true
     }
     else
-        showMessage(`This name (${name}) doesn't exist!!!`, "Error", 4000)
+        showMessage(`This name doesn't exist!!!`, "Error", 5000)
 }
 
 
@@ -105,11 +106,11 @@ let getNameFromInput = () => {
  */
 let checkRuleForName = (name) => {
     if (!/^[a-zA-Z\s]*$/.test(name) === true)
-        throw Error(`input name(${name}) has bad character. change it.`)
+        throw Error(`input name has bad character. change it.`)
     if (name.length > 255)
-        throw Error(`input name(${name}) length is more than 255 character. change it.`)
+        throw Error(`input name length is more than 255 character. change it.`)
     if (/^\s*$/.test(name))     // when name is space
-        throw Error(`input name(${name}) is invalid. change it.`)
+        throw Error(`input name is invalid. change it.`)
 }
 
 
@@ -121,9 +122,15 @@ let handleRequest = async () => {
     try{
         let inputName = getNameFromInput()
         checkRuleForName(inputName)
-        let message = `Fetching information about name: ${inputName}`
+        let message = `Fetching information about name`
         showMessage(message, "Notice", 2000);
         let nameInfo = await sendRequest(inputName);
+        // check user connection and request blocked
+        if (!nameInfo){
+            let errorMessage = "Request Blocked. Check your connection!!!"
+            showMessage(errorMessage, "Error", 4000)
+            return
+        }
         setPrediction(nameInfo);
         showSavedAnswer(inputName)
     }
@@ -202,7 +209,7 @@ let onSave = (event) => {
         let name = getNameFromInput();
         checkRuleForName(name)
         saveNameInfo({name, gender});
-        let message = `Saved name: ${name}, gender: ${gender}.`
+        let message = `Saved name and gender.`
         showMessage(message, "Notices", 4000)
         showSavedAnswer(name)
     }
@@ -219,11 +226,19 @@ let onSave = (event) => {
 let onClear = (event) => {
     event.preventDefault();
     let name = getNameFromInput();
-    let message = `Deleted name: ${name} from local storage.`
+    let message = `Deleted name from local storage.`
     deleteNameInfoFromLocalStorage(name) ? showMessage(message, "Notices", 4000):
     showMessage("Nothing to delete!!!", "Error", 4000);
     showSavedAnswer(name);
 }
+
+/**
+ * check user connection
+ */
+window.addEventListener('offline', (event) => {
+    showMessage("Check your connection!!!", "Error", 4000)
+})
+
 
 
 

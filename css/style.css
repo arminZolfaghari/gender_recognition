@@ -34,10 +34,17 @@ set main container in center and have alert-container and grid-container
 alert container top of grid container. (row 1 in main container)
  */
 .alert-container{
-    height: 10%;
-    width: 45%;
-    opacity: 50%;
+    /*height: 10%;*/
+    /*width: 45%;*/
+    height: 50px;
+    width: 600px;
+
+    opacity: 60%;
     padding: 10px;
+
+    border-width: 2px;
+    /*border-style: solid;*/
+    border-radius: 30px;
 
     display: flex;
     justify-content: space-around;
@@ -51,8 +58,8 @@ grid container bottom of alert container. (row 2 in main container)
     /*height: 60%;*/
     /*width: 45%;*/
 
-    height: 400px;
-    width: 600px;
+    height: 360px;
+    width: 700px;
 
     opacity: 60%;
     padding: 10px;
@@ -79,12 +86,13 @@ in center of row: 1 and column: 1
     grid-column: 1;
     grid-row: 1;
     align-items: center;
-}
-
-
-.title{
 
 }
+
+
+/*.title{*/
+/*    font-family: sans-serif;*/
+/*}*/
 
 /*
 select gender container is row: 2 and column: 1 of grid
@@ -94,6 +102,8 @@ include two radio buttons
     grid-column: 1;
     grid-row: 2;
     align-items: center;
+
+
 }
 
 /*
