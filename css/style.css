@@ -85,14 +85,20 @@ in center of row: 1 and column: 1
 .name-container{
     grid-column: 1;
     grid-row: 1;
-    align-items: center;
+    align-items: flex-start;
+
+    display: flex;
+    flex-direction: column;
+
 
 }
 
-
-/*.title{*/
-/*    font-family: sans-serif;*/
-/*}*/
+/*
+add font for title class, have 3 titles
+ */
+.title{
+    font-family: sans-serif;
+}
 
 /*
 select gender container is row: 2 and column: 1 of grid
@@ -169,5 +175,8 @@ set style for buttons class
 when mouse hover on buttons, buttons change color
  */
 .buttons:hover{
-    background-color: hotpink;
+    background-color: rgb(135,206,235);
+    color: black;
+    border-color: rgb(135,206,235);
+    box-shadow: 0 2px 5px;
 }

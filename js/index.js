@@ -34,7 +34,6 @@ let sendRequest = async (name) => {
     catch (err){
         showMessage(err, "Error", 4000)
     }
-
 }
 
 
